@@ -35,25 +35,37 @@
     </header>
 
     <main class="main" id="main">
-      <!-- TODO: hero — who you are, what you do, one call to action -->
       <section class="hero">
-        <div class="hero-image">
-          <h1 class="hero__title">Julian Bowen</h1>
-          <p class="hero__tagline">TODO: tagline.</p>
+        <div class="hero__image">
+          <div class="hero__text">
+            <h1 id="hero-title" class="hero__title typewriter">
+              Aloha, World!
+            </h1>
+            <p class="hero__tagline typewriter">
+              I'm Julian, a developer & US Army veteran
+            </p>
+          </div>
         </div>
       </section>
 
-      <!-- TODO: the original component that differentiates this homepage.
-           Markup goes here; behavior goes in ./js/main.js -->
-      <section class="feature" aria-labelledby="feature-title">
-        <h2 class="feature__title" id="feature-title">
-          TODO: original component
-        </h2>
-      </section>
-
-      <!-- TODO: meaningful homepage content (projects, experience, writing...) -->
       <section class="cards" aria-labelledby="cards-title">
-        <h2 class="cards__title" id="cards-title">TODO: section heading</h2>
+        <div class="crests">
+          <img
+            src="images/northeastern-university-logo.png"
+            alt="The Northeastern University Crest"
+            class="crests__img"
+          />
+          <img
+            src="images/us-army-crest.png"
+            alt="The US Army Crest"
+            class="crests__img"
+          />
+          <img
+            src="images/engineers.png"
+            alt="The US Army Engineer Crest"
+            class="crests__img"
+          />
+        </div>
         <ul class="cards__grid"></ul>
       </section>
     </main>

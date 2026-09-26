@@ -1,55 +1,105 @@
 /* ==========================================================================
    Julian Bowen — homepage styles
-   1. Fonts
-   2. Design tokens
-   3. Reset / base
-   4. Layout (flexbox + grid)
-   5. Components
-   6. Utilities
+   Shared by every page (index, about, visualizer). The visualizer page also
+   loads visualizer.css on top of this; the homepage only uses this file.
+
+   Sections, in order:
+   1. Fonts         – loads the web font
+   2. Design tokens – named values (colors, spacing) reused everywhere
+   3. Reset / base  – sensible defaults for raw HTML tags (body, p, a, img)
+   4. Layout        – page-level boxes: header, main column, footer, grids
+   5. Components    – the look of individual pieces (nav, hero, feature card)
+   6. Utilities     – small helpers (skip link, screen-reader-only text)
+
+   WHERE TO START (homepage):
+   - Want a different look overall? Edit the tokens in section 2 first.
+     Changing --color-accent or --space-* updates the whole site at once.
+   - Building the hero? Add rules next to .hero__title in section 5. Note
+     index.html uses class="hero-image", which has no styles yet.
+   - Building your original component? Style .feature in section 5 and add
+     behavior in js/feature.js.
+   - Adding project cards? The grid already exists (.cards__grid, section 4).
+     Add <li class="card"> items in index.html, then write a .card rule
+     in section 5.
+
+   NAMING: class names follow "BEM" (Block__Element):
+     .hero           = a block (a standalone chunk of the page)
+     .hero__title    = an element that only makes sense inside .hero
+   So you can tell where a class lives in the HTML just from its name.
+
    No !important anywhere in this file.
    ========================================================================== */
 
 /* 1. Fonts ---------------------------------------------------------------- */
+/* Downloads Fira Code from Google Fonts. "wght@300..700" requests every
+   weight from light (300) to bold (700) in one variable-font file. */
 @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap");
 
 /* 2. Design tokens -------------------------------------------------------- */
+/* :root is the <html> element. Variables (custom properties) declared here
+   are available to every element on the page. Use them with var(--name).
+   Tip: when you want a new color or size, add a token here instead of
+   typing a hex code directly into a rule. */
 :root {
+  /* Font stack: try Fira Code, then the OS's monospace font, then any
+     monospace font. */
   --font-mono: "Fira Code", ui-monospace, monospace;
 
-  --color-bg: #fdfdfc;
-  --color-surface: #f2f2ef;
-  --color-text: #1a1a18;
-  --color-muted: #5c5c57;
-  --color-accent: #2f6f4f;
-  --color-border: #d8d8d2;
+  --color-bg: #fdfdfc; /* page background (off-white) */
+  --color-surface: #f2f2ef; /* slightly darker boxes on top of the bg */
+  --color-text: #1a1a18; /* body text (near-black) */
+  --color-muted: #5c5c57; /* secondary text: taglines, footer */
+  --color-accent: #2f6f4f; /* links and highlights (green) */
+  --color-border: #d8d8d2; /* thin divider lines */
+  --color-terminal: #00ff00;
+  /* Page background: off-white at the top and bottom, blue-gray in the
+     middle. "to bottom" means the colors change as you move down the page. */
+  --page-gradient: linear-gradient(
+    to bottom,
+    #fdfdfc 0%,
+    #8a9bab 50%,
+    #fdfdfc 100%
+  );
 
+  /* Spacing scale. 1rem = the browser's base font size (usually 16px),
+     so --space-md is about 20px. Using only these five sizes keeps
+     gaps consistent across the page. */
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
   --space-md: 1.25rem;
   --space-lg: 2rem;
   --space-xl: 3.5rem;
 
-  --radius: 6px;
-  --measure: 65ch;
-  --page-max: 68rem;
+  --radius: 6px; /* corner rounding for boxes */
+  --measure: 65ch; /* max paragraph width; 1ch ≈ one character wide */
+  --page-max: 68rem; /* max width of the whole content column */
 }
 
 /* 3. Reset / base --------------------------------------------------------- */
+/* By default, width/height exclude padding and border, which makes sizes
+   hard to predict. border-box makes "width: 200px" mean the whole box. */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Browsers add an 8px margin to <body> by default; remove it. Fonts and
+   colors set here are inherited by everything inside the body. */
 body {
   margin: 0;
-  background-color: var(--color-bg);
+  min-height: 100vh; /* fill the window even on short pages */
+  background-color: var(--color-bg); /* fallback if gradients are unsupported */
+  background-image: var(--page-gradient);
+  background-attachment: fixed; /* gradient stays put while content scrolls */
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.6; /* 1.6 × font size between lines; easier to read */
 }
 
+/* Headings are big, so they need tighter line spacing. text-wrap: balance
+   evens out line lengths when a heading wraps onto two lines. */
 h1,
 h2,
 h3 {
@@ -57,6 +107,7 @@ h3 {
   text-wrap: balance;
 }
 
+/* Very long lines are hard to read; cap paragraphs at about 65 characters. */
 p {
   max-width: var(--measure);
 }
@@ -65,6 +116,8 @@ a {
   color: var(--color-accent);
 }
 
+/* Keep images from overflowing their container on small screens.
+   display: block removes the small gap below inline images. */
 img {
   display: block;
   max-width: 100%;
@@ -72,18 +125,28 @@ img {
 }
 
 /* 4. Layout --------------------------------------------------------------- */
+/* The header, main and footer share one pattern for a centered column:
+     max-width: var(--page-max);  never wider than 68rem
+     margin: 0 auto;              "auto" left/right margins center it */
+
+/* Header: a flex row with the name on the left and the nav on the right.
+   space-between pushes the two children to opposite ends. flex-wrap lets
+   the nav drop below the name on narrow screens. */
 .site-header {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: center; /* vertically center the children */
   justify-content: space-between;
-  gap: var(--space-md);
+  gap: var(--space-md); /* space between the flex children */
   max-width: var(--page-max);
   margin: 0 auto;
   padding: var(--space-md);
   border-bottom: 1px solid var(--color-border);
 }
 
+/* Main: stacks its sections (hero, feature, cards) vertically with a large
+   gap between them, so the sections themselves don't need margins.
+   padding shorthand with 3 values = top, left/right, bottom. */
 .main {
   max-width: var(--page-max);
   margin: 0 auto;
@@ -101,6 +164,11 @@ img {
   color: var(--color-muted);
 }
 
+/* Responsive card grid with no media queries:
+   "repeat(auto-fit, minmax(16rem, 1fr))" = fit as many columns as possible,
+   each at least 16rem wide, sharing any leftover space equally. On a phone
+   you get 1 column; on a laptop, 3 or 4.
+   margin/padding/list-style reset the default bullets and indent of <ul>. */
 .cards__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -111,11 +179,14 @@ img {
 }
 
 /* 5. Components ----------------------------------------------------------- */
+/* The name in the top-left. <p> has a default margin; remove it so it
+   lines up with the nav. */
 .site-header__brand {
   margin: 0;
-  font-weight: 600;
+  font-weight: 600; /* semi-bold */
 }
 
+/* Nav links: turn the vertical bulleted <ul> into a horizontal row. */
 .site-nav__list {
   display: flex;
   flex-wrap: wrap;
@@ -125,22 +196,94 @@ img {
   list-style: none;
 }
 
+/* Highlight the link for the page you're on. This is an attribute
+   selector: it matches links with aria-current="page" in the HTML (which
+   also tells screen readers "you are here"). */
 .site-nav__link[aria-current="page"] {
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
 }
 
+.hero__image {
+  position: relative; /* children with position: absolute are placed inside this box*/
+  container-type: inline-size; /* lets children use cqi = 1% of this box's width */
+  aspect-ratio: 16/9; /* same shape as the photo */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../images/rocky_beach.jpg");
+  background-size: cover; /* stretch the photo to fill the box */
+  background-position: top;
+}
+
+.hero__text {
+  position: absolute;
+  top: 23%;
+  right: 11%;
+  text-align: right;
+  white-space: nowrap; /* never wrap, or the layout shifts on small screens */
+}
+
 .hero__title {
-  margin: 0 0 var(--space-xs);
-  font-size: clamp(2rem, 6vw, 3.25rem);
+  margin: 0 0 var(--space-xs); /* only a small gap below */
+  font-size: 5cqi;
+  color: var(--color-terminal);
 }
 
 .hero__tagline {
   margin: 0;
-  color: var(--color-muted);
+  font-size: 1.6cqi;
+  color: var(--color-text);
+}
+
+/* Untyped letters still take up space, so the line never changes width.
+ * visiblity: hidden keeps the space; display: none would remove it*/
+.typewriter__rest {
+  visibility: hidden;
+}
+
+/* Terminal block cursor: a solid box one character wide (1ch) 
+ * and one line tall, filled with the text color */
+.typewriter__cursor {
+  display: inline-block;
+  width: 1ch;
+  height: 1em;
+  vertical-align: -0.1em;
+  background-color: currentColor;
+}
+
+/* Like a real terminal: solid while typing, blinks once idle.
+ * steps(1) makes it switch on/off sharply instead of fading.
+ */
+.typewriter[data-state="done"] .typewriter__cursor {
+  animation: blink 1.5s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Three crests in one row. The grid spans the same column as the hero,
+   and repeat(3, 1fr) splits that width into three equal columns. */
+.crests {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+/* The logos have different shapes. Giving every box the same shape and
+   using object-fit: contain lines them up without stretching any logo. */
+.crests__img {
+  width: 100%;
+  padding: 5vw;
+  aspect-ratio: 1; /* square boxes */
+  object-fit: contain; /* fit the whole logo inside the box */
 }
 
 /* TODO: styles for the original component live here. */
+/* Right now it's just a placeholder box: padding inside, a slightly darker
+   background, a thin border and rounded corners. */
 .feature {
   padding: var(--space-md);
   background-color: var(--color-surface);
@@ -148,6 +291,8 @@ img {
   border-radius: var(--radius);
 }
 
+/* Headings get a default top margin; remove it so they sit flush with the
+   top of their section. (.page-title is used on about.html.) */
 .feature__title,
 .cards__title,
 .page-title {
@@ -155,6 +300,9 @@ img {
 }
 
 /* 6. Utilities ------------------------------------------------------------ */
+/* "Skip to main content" link for keyboard users. It stays off-screen until
+   someone presses Tab, then :focus moves it into view. Try it: load the
+   page and press Tab once. */
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -169,6 +317,9 @@ img {
   border-radius: var(--radius);
 }
 
+/* Hides content visually but keeps it readable by screen readers. Use it for
+   labels that sighted users don't need,
+   e.g. <span class="visually-hidden">Open menu</span>. */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -178,6 +329,9 @@ img {
   white-space: nowrap;
 }
 
+/* Accessibility: if the user's OS is set to "reduce motion", make every
+   animation/transition effectively instant. Any animation you add later is
+   covered automatically. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
