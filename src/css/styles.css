@@ -8,19 +8,14 @@
    2. Design tokens – named values (colors, spacing) reused everywhere
    3. Reset / base  – sensible defaults for raw HTML tags (body, p, a, img)
    4. Layout        – page-level boxes: header, main column, footer, grids
-   5. Components    – the look of individual pieces (nav, hero, feature card)
+   5. Components    – the look of individual pieces (nav, hero, crests, about)
    6. Utilities     – small helpers (skip link, screen-reader-only text)
 
    WHERE TO START (homepage):
    - Want a different look overall? Edit the tokens in section 2 first.
      Changing --color-accent or --space-* updates the whole site at once.
-   - Building the hero? Add rules next to .hero__title in section 5. Note
-     index.html uses class="hero-image", which has no styles yet.
-   - Building your original component? Style .feature in section 5 and add
-     behavior in js/feature.js.
-   - Adding project cards? The grid already exists (.cards__grid, section 4).
-     Add <li class="card"> items in index.html, then write a .card rule
-     in section 5.
+   - Changing a piece of a page? Find its class in section 5 (e.g.
+     .hero__title, .crests__img, .about-section).
 
    NAMING: class names follow "BEM" (Block__Element):
      .hero           = a block (a standalone chunk of the page)
@@ -144,7 +139,7 @@ img {
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Main: stacks its sections (hero, feature, cards) vertically with a large
+/* Main: stacks its sections (hero, crests, about sections) vertically with a large
    gap between them, so the sections themselves don't need margins.
    padding shorthand with 3 values = top, left/right, bottom. */
 .main {
@@ -162,20 +157,6 @@ img {
   padding: var(--space-md);
   border-top: 1px solid var(--color-border);
   color: var(--color-muted);
-}
-
-/* Responsive card grid with no media queries:
-   "repeat(auto-fit, minmax(16rem, 1fr))" = fit as many columns as possible,
-   each at least 16rem wide, sharing any leftover space equally. On a phone
-   you get 1 column; on a laptop, 3 or 4.
-   margin/padding/list-style reset the default bullets and indent of <ul>. */
-.cards__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: var(--space-md);
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
 /* 5. Components ----------------------------------------------------------- */
@@ -281,20 +262,41 @@ img {
   object-fit: contain; /* fit the whole logo inside the box */
 }
 
-/* TODO: styles for the original component live here. */
-/* Right now it's just a placeholder box: padding inside, a slightly darker
-   background, a thin border and rounded corners. */
-.feature {
-  padding: var(--space-md);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+/* About page sections: a picture beside a heading + paragraph.
+   On narrow screens each section is one column: picture on top, text
+   below. HTML always lists the picture first, so that order holds. */
+.about-section {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: center; /* vertically center the text beside the picture */
+}
+
+/* Headings have a default top margin; remove it so the text lines up
+   with the top of its column. */
+.about-section__text h2 {
+  margin-top: 0;
+}
+
+.about-section__img__trim {
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+
+/* Wide screens (48rem is about 768px): two equal columns. Every even
+   section moves its picture to the right, so sections alternate
+   automatically: add a new <section> and it picks the next side. */
+@media (min-width: 48rem) {
+  .about-section {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-section:nth-of-type(even) .about-section__img {
+    order: 1; /* default order is 0, so this goes after the text */
+  }
 }
 
 /* Headings get a default top margin; remove it so they sit flush with the
-   top of their section. (.page-title is used on about.html.) */
-.feature__title,
-.cards__title,
+   top of their section. (.page-title is used on problem-set-visualizer.html.) */
 .page-title {
   margin-top: 0;
 }
@@ -315,18 +317,6 @@ img {
   background-color: var(--color-bg);
   border: 2px solid var(--color-accent);
   border-radius: var(--radius);
-}
-
-/* Hides content visually but keeps it readable by screen readers. Use it for
-   labels that sighted users don't need,
-   e.g. <span class="visually-hidden">Open menu</span>. */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 /* Accessibility: if the user's OS is set to "reduce motion", make every

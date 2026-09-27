@@ -1,7 +1,7 @@
 /* ==========================================================================
    Problem set visualizer. Loaded only by problem-set-visualizer.html, after
    styles.css.
-   1. Dark theme tokens
+   1. Theme tokens
    2. Page layout
    3. Controls
    4. Text pane
@@ -9,23 +9,17 @@
    6. Drawing primitives (arrays, tags, trees, stack frames)
    ========================================================================== */
 
-/* 1. Dark theme tokens ---------------------------------------------------- */
-.theme-dark {
-  color-scheme: dark;
-
-  --color-bg: #131313;
-  --color-surface: #1c1c1b;
-  --color-text: #e9e8e3;
-  --color-muted: #a19f97;
-  --color-accent: #7fd1a3;
-  --color-border: #3b3b38;
-
+/* 1. Theme tokens --------------------------------------------------------- */
+/* Uses the site's light colors from styles.css. These add the visualizer's
+   own colors. All of them pass WCAG AA (4.5:1) with off-white text on top,
+   since tags put --color-bg text on them. */
+:root {
   /* Meaning is consistent across every visualization. */
-  --viz-low: #7cb7ff;
-  --viz-high: #ffab70;
-  --viz-active: #f2d45c;
-  --viz-good: #7fd1a3;
-  --viz-raised: #262625;
+  --viz-low: #1d5fa8; /* blue */
+  --viz-high: #b34d00; /* orange */
+  --viz-active: #8a6a00; /* amber */
+  --viz-good: #2f6f4f; /* green, same as --color-accent */
+  --viz-raised: #e6e6e1; /* buttons and inputs, a step darker than panels */
 }
 
 /* 2. Page layout ---------------------------------------------------------- */
@@ -35,7 +29,6 @@
 
 .viz-page__intro {
   margin: 0;
-  color: var(--color-muted);
 }
 
 .visualizer {

@@ -3,7 +3,7 @@
    Hooked up by main.js, which finds the element with class="typewriter"
    (the <h1> in index.html) and passes it in as `root`.
 
-   THE PLAN (fill in the TODOs below):
+   THE PLAN:
    1. Save the heading's full text, e.g. "Aloha, World!".
    2. Empty the heading so the page starts blank.
    3. Every ~100ms, add the next letter back.

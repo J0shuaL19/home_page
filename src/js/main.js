@@ -36,7 +36,6 @@
 /* 1. Imports -------------------------------------------------------------- */
 /* Pull in the init function each module exports. The name in { } must match
    the name after "export function" in that file exactly. */
-import { initFeature } from "./feature.js";
 import { initTypewriter } from "./typewriter.js";
 
 /* 2. Wiring --------------------------------------------------------------- */
@@ -50,7 +49,6 @@ async function main() {
        "h1"           → the first <h1>
      Need every match? document.querySelectorAll(".card") returns a list
      you can loop over with for (const card of cards) { ... }. */
-  const feature = document.querySelector(".feature");
   const typewriter = document.querySelector(".typewriter");
   const visualizer = document.querySelector(".visualizer");
 
@@ -59,10 +57,6 @@ async function main() {
      about.html does not crash looking for a typewriter it lacks. */
   if (typewriter) {
     initTypewriter(typewriter);
-  }
-
-  if (feature) {
-    initFeature(feature);
   }
 
   /* Only the visualizer page pays for the visualizer's modules. import()

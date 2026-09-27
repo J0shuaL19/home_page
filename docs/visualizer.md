@@ -84,7 +84,7 @@ be copies, not live references.
 
 ```
 src/problem-set-visualizer.html   page shell (static markup, data-viz hooks)
-src/css/visualizer.css            dark theme + all viz styles
+src/css/visualizer.css            viz color tokens + all viz styles
 src/js/visualizer/app.js          dropdowns, text pane, player UI, hash, keys
 src/js/visualizer/player.js       generic step player (play/pause/speed/seek)
 src/js/visualizer/lib.js          tex, pre, random, validation, arrayRow, tag
