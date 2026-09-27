@@ -3,7 +3,7 @@
 Personal homepage built for CS5610 Web Development.
 
 - **Author:** Julian E Bowen
-- **Class link:** https://johnguerra.co/classes/webDevelopment_online_summer_2026/index.html
+- **Class link:** https://johnguerra.co/classes/webDevelopment_online_summer_2026/index.html (Class link is not accurate)
 - **Live site:** https://jbowen999.github.io/home_page/
 - **Design document:** [docs/DESIGN.md](docs/DESIGN.md)
 - **Demo video:** https://youtu.be/MPZcyVRa-bg
