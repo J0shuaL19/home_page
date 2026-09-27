@@ -3,10 +3,10 @@
 Personal homepage built for CS5610 Web Development.
 
 - **Author:** Julian E Bowen
-- **Class link:** TODO: link to the CS5610 course page
-- **Live site:** https://jbowen999.github.io/home_page/ (GitHub Pages not enabled yet)
+- **Class link:** https://johnguerra.co/classes/webDevelopment_online_summer_2026/index.html
+- **Live site:** https://jbowen999.github.io/home_page/
 - **Design document:** [docs/DESIGN.md](docs/DESIGN.md)
-- **Demo video:** TODO: public link to the narrated video
+- **Demo video:** https://youtu.be/MPZcyVRa-bg
 
 ## Project Objective
 
@@ -89,7 +89,7 @@ Tracking the assignment rubric.
 - [ ] Design document (description, personas, user stories, mockups)
 - [x] Meaningful homepage content
 - [x] ES6 modules (`type: "module"` in package.json, `type="module"` on scripts)
-- [ ] Deployed to a public page
+- [x] Deployed to a public page
 - [x] Original differentiating component
 - [x] CSS / JS / images in separate folders
 - [x] Meta information: author, description, icon
@@ -106,9 +106,9 @@ Tracking the assignment rubric.
 - [x] README: author, class link, objective, screenshot, build instructions
 - [x] `package.json` listing dependencies
 - [x] MIT license
-- [ ] Short public narrated video
+- [x] Short public narrated video
 - [ ] Google Form submission correct
-- [ ] GenAI usage described
+- [x] GenAI usage described
 - [ ] Code review completed
 
 ## License
