@@ -201,19 +201,38 @@ img {
   top: 23%;
   right: 11%;
   text-align: right;
-  white-space: nowrap; /* never wrap, or the layout shifts on small screens */
 }
 
+/* Text scales with the hero (5cqi = 5% of its width), but max() sets a
+   floor so it stays readable on phones. Desktop sizes are unchanged. */
 .hero__title {
   margin: 0 0 var(--space-xs); /* only a small gap below */
-  font-size: 5cqi;
+  font-size: max(1.75rem, 5cqi);
   color: var(--color-terminal);
+  white-space: nowrap; /* never wrap, or the layout shifts while it types */
 }
 
+/* The tagline may wrap onto two lines on narrow screens. */
 .hero__tagline {
   margin: 0;
-  font-size: 1.6cqi;
+  font-size: max(0.8rem, 1.6cqi);
   color: var(--color-text);
+}
+
+/* Phones: the photo is short, so move the text into the top-right corner,
+   wrap the tagline into short lines that stay clear of the face, and make
+   it light so it reads over the dark rocks. */
+@media (max-width: 40rem) {
+  .hero__text {
+    top: 8%;
+    right: 5%;
+  }
+
+  .hero__tagline {
+    max-width: 24ch;
+    margin-left: auto; /* keep the narrower tagline right-aligned */
+    color: var(--color-bg);
+  }
 }
 
 /* Untyped letters still take up space, so the line never changes width.

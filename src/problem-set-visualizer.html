@@ -131,11 +131,15 @@
                 data-viz="scrub"
               />
             </label>
-            <label class="viz-field">
+            <div class="viz-field">
               <span class="viz-field__label"
-                >Speed <output data-viz="speed-out">1&times;</output></span
+                ><label for="viz-speed">Speed</label>
+                <output for="viz-speed" data-viz="speed-out"
+                  >1&times;</output
+                ></span
               >
               <input
+                id="viz-speed"
                 class="viz-range"
                 type="range"
                 min="0"
@@ -143,7 +147,7 @@
                 value="2"
                 data-viz="speed"
               />
-            </label>
+            </div>
           </div>
           <p class="viz-hint">
             Keyboard: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> step &middot;
