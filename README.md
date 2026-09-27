@@ -86,7 +86,7 @@ rubric asks for the description either way.
 
 Tracking the assignment rubric.
 
-- [ ] Design document (description, personas, user stories, mockups)
+- [x] Design document (description, personas, user stories, mockups)
 - [x] Meaningful homepage content
 - [x] ES6 modules (`type: "module"` in package.json, `type="module"` on scripts)
 - [x] Deployed to a public page
@@ -107,9 +107,7 @@ Tracking the assignment rubric.
 - [x] `package.json` listing dependencies
 - [x] MIT license
 - [x] Short public narrated video
-- [ ] Google Form submission correct
 - [x] GenAI usage described
-- [ ] Code review completed
 
 ## License
 
